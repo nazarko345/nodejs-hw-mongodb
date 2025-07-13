@@ -2,8 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
 
-import { showContacts } from './controllers/contactsController.js';
-import { showContactById } from './controllers/showContactById.js';
+import { showContacts, showContactById } from './controllers/contactsController.js';
 import { getEnvVariable } from './utilts/getEnvVariable.js';
 
 const PORT = getEnvVariable('PORT') || 8080;
