@@ -14,10 +14,10 @@ export async function showContacts(req, res) {
 }
 
 export async function showContactById(req, res) {
-  const { contactId } = req.params;
+  const { _id } = req.params;
 
   try {
-    const contacts = await getContactById(contactId);
+    const contacts = await getContactById(_id);
 
     res.status(200).send({
       status: 200,
