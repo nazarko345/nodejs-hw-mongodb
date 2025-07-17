@@ -7,7 +7,7 @@ import {
   showContactByIdController,
 } from './controllers/contactsController.js';
 import { getEnvVariable } from './utilts/getEnvVariable.js';
-import contactRouter from "./routers/contacts.js";
+import contactRouter from './routers/contacts.js';
 import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 
@@ -28,10 +28,6 @@ export function setupServer() {
 
   app.get('/contacts', showContactsController);
   app.get('/contacts/:contactId', showContactByIdController);
-
-  app.get((req, res) => {
-    res.status(404).json({ message: 'not found!' });
-  });
 
   app.use(errorHandler);
 
