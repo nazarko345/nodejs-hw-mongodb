@@ -2,8 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
 
-import { showContacts, showContactById } from './controllers/contactsController.js';
+import {
+  showContactsController,
+  showContactByIdController,
+} from './controllers/contactsController.js';
 import { getEnvVariable } from './utilts/getEnvVariable.js';
+import contactRouter from "./routers/contacts.js";
+import errorHandler from './middlewares/errorHandler.js';
+import notFoundHandler from './middlewares/notFoundHandler.js';
 
 const PORT = getEnvVariable('PORT') || 8080;
 
@@ -20,12 +26,18 @@ export function setupServer() {
     }),
   );
 
-  app.get('/contacts', showContacts);
-  app.get('/contacts/:contactId', showContactById);
+  app.get('/contacts', showContactsController);
+  app.get('/contacts/:contactId', showContactByIdController);
 
   app.get((req, res) => {
     res.status(404).json({ message: 'not found!' });
   });
+
+  app.use(errorHandler);
+
+  app.use(notFoundHandler);
+
+  app.use(contactRouter);
 
   app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
