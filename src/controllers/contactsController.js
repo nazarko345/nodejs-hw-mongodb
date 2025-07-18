@@ -43,21 +43,21 @@ export async function showContactByIdController(req, res) {
 // api operat
 
 export async function postContactController(req, res, next) {
-  const contacts = await createContact(req.body);
+  const contact = await createContact(req.body);
 
   res.status(201).json({
     status: 201,
     message: 'Successfully created a contact!',
-    data: contacts,
+    data: contact,
   });
 }
 
 export async function patchContactController(req, res, next) {
   const { contactId } = req.params;
-  const contact = await patchContact(contactId);
+  const contact = await patchContact(contactId, req.body);
 
   if (!contact) {
-    createHttpError(404, 'Contact not found');
+    createHttpError.NotFound('Contact not found');
     return;
   }
 
@@ -73,7 +73,7 @@ export async function deleteContactController(req, res, next) {
   const contact = await deleteContact(contactId);
 
   if (!contact) {
-    createHttpError(404, 'Contact not found');
+    createHttpError.NotFound('Contact not found!');
     return;
   }
 
