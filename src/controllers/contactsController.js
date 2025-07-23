@@ -69,11 +69,12 @@ export async function patchContactController(req, res, next) {
 
 export async function deleteContactController(req, res, next) {
   const { contactId } = req.params;
+
   const contact = await deleteContact(contactId);
 
   if (!contact) {
     throw new createHttpError.NotFound('Contact not found!');
   }
 
-  res.status(204).send();
+  res.status(204).send(); 
 }

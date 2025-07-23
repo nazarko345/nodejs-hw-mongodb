@@ -25,7 +25,5 @@ export async function patchContact(contactId, updateData) {
 }
 
 export async function deleteContact(contactId) {
-  const contactById = ContactsCollection.findOneAndDelete(contactId);
-  return contactById;
+  return await ContactsCollection.findOneAndDelete({ _id: contactId });
 }
-
