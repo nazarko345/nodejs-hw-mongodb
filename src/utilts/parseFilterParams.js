@@ -26,5 +26,5 @@ export const parseFilteredParams = (query) => {
         : parsedFavourite === 'false'
         ? false
         : undefined,
-  };
+  };  
 };
