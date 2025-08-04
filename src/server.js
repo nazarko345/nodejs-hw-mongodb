@@ -6,6 +6,7 @@ import { getEnvVariable } from './utilts/getEnvVariable.js';
 import contactRouter from './routers/contacts.js';
 import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
+import router from './routers/index.js';
 
 const PORT = getEnvVariable('PORT') || 8080;
 
@@ -21,6 +22,8 @@ export function setupServer() {
       },
     }),
   );
+
+  app.use(router);
 
   app.use(contactRouter);
 
