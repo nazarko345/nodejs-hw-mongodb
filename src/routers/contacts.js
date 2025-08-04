@@ -10,6 +10,7 @@ import ctrlWrapper from '../utilts/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { validationSchema } from '../validation/contacts.js';
 import { isValidId } from '../validation/isValidId.js';
+import { authenticate } from '../middlewares/autentification.js';
 
 const router = Router();
 
@@ -20,6 +21,8 @@ router.get(
   isValidId,
   ctrlWrapper(showContactByIdController),
 );
+
+router.use(authenticate);
 
 // api operat
 
