@@ -7,6 +7,7 @@ import contactRouter from './routers/contacts.js';
 import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import router from './routers/index.js';
+import cookieParser from 'cookie-parser';
 
 const PORT = getEnvVariable('PORT') || 8080;
 
@@ -14,6 +15,7 @@ export function setupServer() {
   const app = express();
   app.use(express.json());
   app.use(cors());
+  app.use(cookieParser());
 
   app.use(
     pino({
