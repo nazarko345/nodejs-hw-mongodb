@@ -14,6 +14,7 @@ export async function showContactsController(req, res) {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
   const { isFavourite, contactType } = parseFilteredParams(req.query);
+  const { _id: userId } = req.user;
   const contacts = await getAllContacts({
     page,
     perPage,
@@ -21,6 +22,7 @@ export async function showContactsController(req, res) {
     sortOrder,
     isFavourite,
     contactType,
+    owner: userId,
   });
 
   if (!contacts || contacts.length === 0) {
@@ -40,7 +42,7 @@ export async function showContactsController(req, res) {
 export async function showContactByIdController(req, res) {
   const { contactId } = req.params;
 
-  const contact = await getContactById(contactId);
+  const contact = await getContactById(contactId, req.user._id);
 
   if (!contact) {
     throw new createHttpError.NotFound('Student not found');
@@ -56,7 +58,7 @@ export async function showContactByIdController(req, res) {
 // api operat
 
 export async function postContactController(req, res, next) {
-  const contact = await createContact(req.body);
+  const contact = await createContact(req.body, req.user._id);
 
   res.status(201).json({
     status: 201,
@@ -65,25 +67,27 @@ export async function postContactController(req, res, next) {
   });
 }
 
-export async function patchContactController(req, res, next) {
+export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = await patchContact(contactId, req.body);
 
-  if (!contact) {
-    throw new createHttpError.NotFound('Contact not found');
+  const result = await patchContact(contactId, req.body, req.user._id);
+
+  if (!result) {
+    next(createHttpError(404, 'Contact not found'));
+    return;
   }
 
-  res.status(200).json({
+  res.json({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: contact,
+    data: result.contact,
   });
-}
+};
 
 export async function deleteContactController(req, res, next) {
   const { contactId } = req.params;
 
-  const contact = await deleteContact(contactId);
+  const contact = await deleteContact(contactId, req.user._id);
 
   if (!contact) {
     throw new createHttpError.NotFound('Contact not found!');

@@ -14,6 +14,8 @@ import { authenticate } from '../middlewares/autentification.js';
 
 const router = Router();
 
+router.use(authenticate);
+
 router.get('/contacts', ctrlWrapper(showContactsController));
 
 router.get(
@@ -21,8 +23,6 @@ router.get(
   isValidId,
   ctrlWrapper(showContactByIdController),
 );
-
-router.use(authenticate);
 
 // api operat
 
