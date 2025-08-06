@@ -16,10 +16,10 @@ const router = Router();
 
 router.use(authenticate);
 
-router.get('/contacts', ctrlWrapper(showContactsController));
+router.get('/', ctrlWrapper(showContactsController));
 
 router.get(
-  '/contacts/:contactId',
+  '/:contactId',
   isValidId,
   ctrlWrapper(showContactByIdController),
 );
@@ -27,20 +27,20 @@ router.get(
 // api operat
 
 router.post(
-  '/contacts',
+  '/',
   validateBody(validationSchema),
   ctrlWrapper(postContactController),
 );
 
 router.patch(
-  '/contacts/:contactId',
+  '/:contactId',
   validateBody(validationSchema),
   isValidId,
   ctrlWrapper(patchContactController),
 );
 
 router.delete(
-  '/contacts/:contactId',
+  '/:contactId',
   isValidId,
   ctrlWrapper(deleteContactController),
 );
