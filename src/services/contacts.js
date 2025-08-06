@@ -15,7 +15,7 @@ export async function getAllContacts({
 
   const queryConditions = { owner };
 
-  const students = await queryConditions
+  const students = await ContactsCollection.find(queryConditions)
     .skip(skip)
     .limit(limit)
     .sort({ [sortBy]: sortOrder })
