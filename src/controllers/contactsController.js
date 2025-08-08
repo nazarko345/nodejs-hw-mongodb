@@ -22,7 +22,7 @@ export async function showContactsController(req, res) {
     sortOrder,
     isFavourite,
     contactType,
-    owner: userId,
+    userId,
   });
 
   if (!contacts || contacts.length === 0) {
@@ -95,4 +95,3 @@ export async function deleteContactController(req, res, next) {
 
   res.status(204).send();
 }
- 

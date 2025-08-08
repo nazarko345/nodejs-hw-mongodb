@@ -8,12 +8,12 @@ export async function getAllContacts({
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
   filter = {},
-  owner,
+  userId,
 }) {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const queryConditions = { owner };
+  const queryConditions = { userId };
 
   const students = await ContactsCollection.find(queryConditions)
     .skip(skip)
