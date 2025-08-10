@@ -1,3 +1,4 @@
+import * as fs from 'node:fs/promises';
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utilts/parsePaginationParams.js';
 import {
@@ -9,6 +10,7 @@ import {
 } from '../services/contacts.js';
 import { parseSortParams } from '../utilts/parseSortParams.js';
 import { parseFilteredParams } from '../utilts/parseFilterParams.js';
+import { uploadToCLoudinary } from '../utilts/uploadToCloudinary.js';
 
 export async function showContactsController(req, res) {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -58,13 +60,28 @@ export async function showContactByIdController(req, res) {
 // api operat
 
 export async function postContactController(req, res, next) {
-  const contact = await createContact(req.body, req.user._id);
-
-  res.status(201).json({
-    status: 201,
-    message: 'Successfully created a contact!',
-    data: contact,
+  const result = await uploadToCLoudinary(req.file.path);
+  await fs.unlink(req.file.path);
+  const contact = await createContact({
+    ...req.body,
+    photo: result.secure_url,
+    userId: req.user.id,
   });
+
+  res
+    .status(201)
+    .set('Content-Type', 'application/json')
+    .send(
+      JSON.stringify(
+        {
+          status: 201,
+          message: 'Successfully created a contact!',
+          data: contact,
+        },
+        null,
+        2,
+      ),
+    );
 }
 
 export const patchContactController = async (req, res, next) => {
