@@ -29,12 +29,14 @@ router.get(
 
 router.post(
   '/',
+  upload.single('photo'),
   validateBody(validationSchema),
   ctrlWrapper(postContactController),
 );
 
 router.patch(
   '/:contactId',
+  upload.single('photo'),
   validateBody(validationSchema),
   isValidId,
   ctrlWrapper(patchContactController),
@@ -42,7 +44,6 @@ router.patch(
 
 router.delete(
   '/:contactId',
-  upload.single('photo'),
   isValidId,
   ctrlWrapper(deleteContactController),
 );
