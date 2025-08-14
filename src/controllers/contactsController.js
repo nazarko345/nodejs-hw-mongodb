@@ -60,44 +60,47 @@ export async function showContactByIdController(req, res) {
 // api operat
 
 export async function postContactController(req, res, next) {
-  const result = await uploadToCLoudinary(req.file.path);
-  await fs.unlink(req.file.path);
+  let photoUrl = null;
+
+  if (req.file) {
+    const result = await uploadToCLoudinary(req.file.path);
+    await fs.unlink(req.file.path);
+    photoUrl = result.secure_url;
+  }
+
   const contact = await createContact({
     ...req.body,
-    photo: result.secure_url,
+    photo: photoUrl,
     userId: req.user.id,
   });
 
-  res
-    .status(201)
-    .set('Content-Type', 'application/json')
-    .send(
-      JSON.stringify(
-        {
-          status: 201,
-          message: 'Successfully created a contact!',
-          data: contact,
-        },
-        null,
-        2,
-      ),
-    );
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully created a contact!',
+    data: contact,
+  });
 }
 
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  const updateData = { ...req.body };
 
-  const result = await patchContact(contactId, req.body, req.user._id);
+  if (req.file) {
+    const result = await uploadToCLoudinary(req.file.path);
+    await fs.unlink(req.file.path);
+    updateData.photo = result.secure_url;
+  }
 
-  if (!result) {
-    next(createHttpError(404, 'Contact not found'));
-    return;
+  const resultData = await patchContact(contactId, updateData, req.user._id);
+
+  if (!resultData) {
+    return next(createHttpError(404, 'Contact not found'));
   }
 
   res.json({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: result.contact,
+    data: resultData.contact,
   });
 };
 

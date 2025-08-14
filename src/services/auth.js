@@ -90,7 +90,7 @@ export const refreshUser = async ({ sessionId, refreshToken }) => {
 };
 
 export const requestResetToken = async (email) => {
-  const user = SessionsCollection.findOne({ email });
+  const user = await UserCollection.findOne({ email }); // ✅ шукаємо у UserCollection і додаємо await
   if (!user) {
     throw createHttpError(404, 'User not found');
   }

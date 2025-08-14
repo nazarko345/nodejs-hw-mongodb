@@ -3,13 +3,14 @@ import cors from 'cors';
 import pino from 'pino-http';
 
 import { getEnvVariable } from './utilts/getEnvVariable.js';
-import contactRouter from './routers/contacts.js';
 import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import router from './routers/index.js';
 import cookieParser from 'cookie-parser';
+import path from 'node:path';
 
 const PORT = getEnvVariable('PORT') || 8080;
+const photosDir = path.resolve('src', 'uploads', 'photos');
 
 export function setupServer() {
   const app = express();
@@ -26,8 +27,7 @@ export function setupServer() {
   );
 
   app.use(router);
-
-  app.use(contactRouter);
+  app.use('/photos', express.static(photosDir));
 
   app.use(errorHandler);
 

@@ -8,7 +8,7 @@ import {
 } from '../controllers/contactsController.js';
 import ctrlWrapper from '../utilts/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { validationSchema } from '../validation/contacts.js';
+import { contactUpdateSchema, validationSchema } from '../validation/contacts.js';
 import { isValidId } from '../validation/isValidId.js';
 import { authenticate } from '../middlewares/autentification.js';
 import { upload } from '../middlewares/upload.js';
@@ -29,15 +29,15 @@ router.get(
 
 router.post(
   '/',
-  upload.single('photo'),
-  validateBody(validationSchema),
+  upload.single('photo'), 
+  validateBody(validationSchema), 
   ctrlWrapper(postContactController),
 );
 
 router.patch(
   '/:contactId',
   upload.single('photo'),
-  validateBody(validationSchema),
+  validateBody(contactUpdateSchema), 
   isValidId,
   ctrlWrapper(patchContactController),
 );

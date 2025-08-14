@@ -44,14 +44,9 @@ router.post(
 );
 
 router.post(
-  '/reset-password',
+  '/reset-pwd',
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
-);
-
-router.post('/reset-pwd',
-  validateBody(),
-  ctrlWrapper()
 );
 
 export default router;
