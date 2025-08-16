@@ -62,7 +62,7 @@ export const patchContact = async (
     payload,
     {
       new: true,
-      includeResultMetadata: true,
+      includeResultMetadata: true, 
       ...options,
     },
   );
