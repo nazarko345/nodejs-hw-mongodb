@@ -10,3 +10,4 @@ cloudinary.v2.config({
 export function uploadToCLoudinary(filePath) {
   return cloudinary.v2.uploader.upload(filePath);
 }
+ 

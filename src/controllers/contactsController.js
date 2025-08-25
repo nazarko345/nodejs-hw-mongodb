@@ -68,7 +68,7 @@ const photo = req.file;
 
   if (photo) {
     if (getEnvVariable('ENABLE_CLOUDINARY') === 'true') {
-      photoUrl = await uploadToCLoudinary(photo);
+      photoUrl = await uploadToCLoudinary(photo.path);
     } else {
       photoUrl = await saveFileToUploadDir(photo);
     }

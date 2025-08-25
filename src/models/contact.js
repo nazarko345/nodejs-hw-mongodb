@@ -28,8 +28,9 @@ const contactsSchema = new Schema(
       required: true,
       default: 'personal',
     },
-    photo: { 
-      type: String
+    photo: {
+      type: String,
+      default: null,
     },
   },
   {
