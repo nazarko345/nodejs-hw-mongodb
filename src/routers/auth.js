@@ -28,7 +28,7 @@ router.post(
 router.post(
   '/logout',
   validateBody(loginUserSchema),
-  ctrlWrapper(logoutController),
+  ctrlWrapper(logoutController), 
 );
 
 router.post(

@@ -75,7 +75,7 @@ const photo = req.file;
   }
 
   const contact = await createContact(
-    { ...req.body, photo: photoUrl },
+    { ...req.body, photo: photoUrl.secure_url },
     req.user._id,
   );
 
@@ -84,7 +84,7 @@ const photo = req.file;
     message: 'Successfully created a contact!',
     data: contact,
   });
-}
+} 
 
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
