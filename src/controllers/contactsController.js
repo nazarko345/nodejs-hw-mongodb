@@ -62,7 +62,7 @@ export async function showContactByIdController(req, res) {
 // api operat
 
 export async function postContactController(req, res, next) {
-const photo = req.file;
+  const photo = req.file;
 
   let photoUrl;
 
@@ -84,7 +84,7 @@ const photo = req.file;
     message: 'Successfully created a contact!',
     data: contact,
   });
-} 
+}
 
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
