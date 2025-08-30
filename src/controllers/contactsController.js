@@ -75,7 +75,7 @@ export async function postContactController(req, res, next) {
   }
 
   const contact = await createContact(
-    { ...req.body, photo: photoUrl.secure_url },
+    { ...req.body, photo: photoUrl },
     req.user._id,
   );
 
